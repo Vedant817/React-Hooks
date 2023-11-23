@@ -1,23 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(()=>{ //! Value should be returned through the function to avoid re-rendering.
-    console.log("Run Function");
-    return 4;
-})
-  function decrementCount(){
-    setCount(prevCount => prevCount-1)
-  }
-  function incrementCount(){
-    setCount(prevCount => prevCount+1)
-  }
+  const [resourceType, setResourceType] = useState('Posts')
+  //? Everything inside the useEffect will be executed every time application re-renders
+  useEffect(()=>{
+    return ()=>{
+      console.log("Renders");
+    }
+  },[resourceType]) //! Second argument helps us by calling useEffect only when second parameter changes otherwise not.
 
   return (
     <>
-      <button onClick={decrementCount}>-</button>
-      <span>{count}</span>
-      <button onClick={incrementCount}>+</button>
+      <div>
+        <button onClick={()=> setResourceType('Posts')}>Posts</button>
+        <button onClick={()=> setResourceType('User')}>User</button>
+        <button onClick={()=> setResourceType('Comments')}>Comments</button>
+      </div>
+      <h1>{resourceType}</h1>
     </>
   )
 }
